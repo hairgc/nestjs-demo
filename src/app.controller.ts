@@ -20,6 +20,7 @@ import { ForbiddenException } from './common/exception/forbidden.exception';
 import { ForbiddenExceptionFilter } from './common/filters/forbidden-exception.filter';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { Observable, of } from 'rxjs';
+import { User } from './common/decorators/user.decorator';
 
 @Controller()
 // @Controller({ host: 'admin.xxx.com' })
@@ -114,5 +115,20 @@ export class AppController {
   // @UseFilters(ForbiddenExceptionFilter)
   // async findAll() {
   //   throw new ForbiddenException();
+  // }
+
+  /** custom decorator*/
+  // ===========================================================================
+  // @Get()
+  // getHello(@User('name') name: string): string {
+  //   console.log(name);
+  //   return this.appService.getHello();
+  // }
+
+  // ===========================================================================
+  // @Get()
+  // getHello(@User() user: any): string {
+  //   console.log(user);
+  //   return this.appService.getHello();
   // }
 }

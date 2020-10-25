@@ -21,16 +21,18 @@ import { ForbiddenExceptionFilter } from './common/filters/forbidden-exception.f
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { Observable, of } from 'rxjs';
 import { User } from './common/decorators/user.decorator';
+import { CreateUserDto } from './user/dto';
 
 @Controller()
 // @Controller({ host: 'admin.xxx.com' })
+// @UseFilters(HttpExceptionFilter)
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  getHello(): string {
-    return this.appService.getHello();
-  }
+  // @Get()
+  // getHello(): string {
+  //   return this.appService.getHello();
+  // }
 
   // ===========================================================================
 
@@ -46,14 +48,16 @@ export class AppController {
   // ===========================================================================
 
   // req.query / req.query[key];req.body / req.body[key];req.headers / req.headers[name]
-  // @Get(':id')
+  // @Get(':id/:userId')
   // getHello(
   //   @Param('id') id: number,
+  //   @Param('userId') userId: number,
   //   @Query('name') name: string,
   //   @Body() someDto: any,
   //   @Headers('Content-Type') contentType: string,
   // ): string {
   //   console.log(id);
+  //   console.log(userId)
   //   console.log(name);
   //   console.log(someDto);
   //   console.log(contentType);
@@ -62,7 +66,7 @@ export class AppController {
 
   // ===========================================================================
 
-  // @Get('ab*cd')
+  // @Get('abcd')
   // getHello(): string {
   //   return this.appService.getHello();
   // }
@@ -119,11 +123,11 @@ export class AppController {
 
   /** custom decorator*/
   // ===========================================================================
-  // @Get()
-  // getHello(@User('name') name: string): string {
-  //   console.log(name);
-  //   return this.appService.getHello();
-  // }
+  @Get()
+  getHello(@User() user: CreateUserDto): string {
+    console.log(user);
+    return this.appService.getHello();
+  }
 
   // ===========================================================================
   // @Get()

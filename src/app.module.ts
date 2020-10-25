@@ -17,13 +17,15 @@ import { RoleGuard } from './common/guards/role.guard';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
+import { UserModule } from './user/user.module';
 
-@Module({
-  imports: [],
-  controllers: [AppController, UserController],
-  providers: [AppService, UserService],
-})
-export class AppModule {}
+// @Module({
+//   imports: [UserModule],
+//   exports:[],
+//   controllers: [AppController],
+//   providers: [AppService],
+// })
+// export class AppModule {}
 
 //==============================================================================
 // export class AppModule implements NestModule {
@@ -148,34 +150,34 @@ export class AppModule {}
 
 /** Interceptors */
 // =============================================================================
-// @Module({
-//   imports: [UserModule],
-//   controllers: [AppController],
-//   providers: [
-//     AppService,
-//     {
-//       provide: APP_FILTER,
-//       useClass: HttpExceptionFilter,
-//     },
-//     {
-//       provide: APP_FILTER,
-//       useClass: ForbiddenExceptionFilter,
-//     },
-//     {
-//       provide: APP_GUARD,
-//       useClass: AuthGuard,
-//     },
-//     {
-//       provide: APP_GUARD,
-//       useClass: RoleGuard,
-//     },
-//     {
-//       provide: APP_INTERCEPTOR,
-//       useClass: LoggingInterceptor,
-//     },
-//   ],
-// })
-// export class AppModule {}
+@Module({
+  imports: [UserModule],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: ForbiddenExceptionFilter,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RoleGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: LoggingInterceptor,
+    },
+  ],
+})
+export class AppModule {}
 
 // =============================================================================
 // @Module({

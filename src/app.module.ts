@@ -18,14 +18,31 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 import { TimeoutInterceptor } from './common/interceptors/timeout.interceptor';
 import { UserModule } from './user/user.module';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Connection } from 'typeorm';
+import { User } from './user/entity/user.entity';
 
-// @Module({
-//   imports: [UserModule],
-//   exports:[],
-//   controllers: [AppController],
-//   providers: [AppService],
-// })
-// export class AppModule {}
+@Module({
+  imports: [
+    UserModule,
+    TypeOrmModule.forRoot({
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '123456',
+      database: 'test',
+      entities: [User],
+      synchronize: true,
+    }),
+  ],
+  exports: [],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {
+  constructor(private connection: Connection) {}
+}
 
 //==============================================================================
 // export class AppModule implements NestModule {
@@ -150,34 +167,34 @@ import { UserModule } from './user/user.module';
 
 /** Interceptors */
 // =============================================================================
-@Module({
-  imports: [UserModule],
-  controllers: [AppController],
-  providers: [
-    AppService,
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
-    {
-      provide: APP_FILTER,
-      useClass: ForbiddenExceptionFilter,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: AuthGuard,
-    },
-    {
-      provide: APP_GUARD,
-      useClass: RoleGuard,
-    },
-    {
-      provide: APP_INTERCEPTOR,
-      useClass: LoggingInterceptor,
-    },
-  ],
-})
-export class AppModule {}
+// @Module({
+//   imports: [UserModule],
+//   controllers: [AppController],
+//   providers: [
+//     AppService,
+//     {
+//       provide: APP_FILTER,
+//       useClass: HttpExceptionFilter,
+//     },
+//     {
+//       provide: APP_FILTER,
+//       useClass: ForbiddenExceptionFilter,
+//     },
+//     {
+//       provide: APP_GUARD,
+//       useClass: AuthGuard,
+//     },
+//     {
+//       provide: APP_GUARD,
+//       useClass: RoleGuard,
+//     },
+//     {
+//       provide: APP_INTERCEPTOR,
+//       useClass: LoggingInterceptor,
+//     },
+//   ],
+// })
+// export class AppModule {}
 
 // =============================================================================
 // @Module({

@@ -21,11 +21,84 @@ import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { User } from './user/entity/user.entity';
+import { Account } from './user/entity/account.entity';
+// import { Photo } from './user/entity/photo.entity';
 
+// @Module({
+//   imports: [
+//     UserModule,
+//     TypeOrmModule.forRoot({
+//       type: 'mysql',
+//       host: 'localhost',
+//       port: 3306,
+//       username: 'root',
+//       password: '123456',
+//       database: 'test',
+//       entities: [User],
+//       synchronize: true,
+//     }),
+//   ],
+//   exports: [],
+//   controllers: [AppController],
+//   providers: [AppService],
+// })
+// export class AppModule {
+//   constructor(private connection: Connection) {}
+// }
+
+// ==================================================================
+
+// @Module({
+//   imports: [
+//     UserModule,
+//     TypeOrmModule.forRoot({
+//       type: 'mysql',
+//       host: 'localhost',
+//       port: 3306,
+//       username: 'root',
+//       password: '123456',
+//       database: 'test',
+//       entities: [User, Photo],
+//       synchronize: true,
+//     }),
+//   ],
+//   exports: [],
+//   controllers: [AppController],
+//   providers: [AppService],
+// })
+// export class AppModule {
+//   constructor(private connection: Connection) {}
+// }
+
+// ============================================================================
+// @Module({
+//   imports: [
+//     UserModule,
+//     TypeOrmModule.forRoot({
+//       type: 'mysql',
+//       host: 'localhost',
+//       port: 3306,
+//       username: 'root',
+//       password: '123456',
+//       database: 'test',
+//       autoLoadEntities: true,
+//       synchronize: true,
+//     }),
+//   ],
+//   exports: [],
+//   controllers: [AppController],
+//   providers: [AppService],
+// })
+// export class AppModule {
+//   constructor(private connection: Connection) {}
+// }
+
+// ============================================================================
 @Module({
   imports: [
     UserModule,
     TypeOrmModule.forRoot({
+      // name: 'localhost',
       type: 'mysql',
       host: 'localhost',
       port: 3306,
@@ -35,14 +108,23 @@ import { User } from './user/entity/user.entity';
       entities: [User],
       synchronize: true,
     }),
+    TypeOrmModule.forRoot({
+      name: 'aliyun',
+      type: 'mysql',
+      host: '39.106.66.195',
+      port: 3306,
+      username: 'root',
+      password: 'wasdraw',
+      database: 'test',
+      entities: [Account],
+      synchronize: true,
+    }),
   ],
   exports: [],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  constructor(private connection: Connection) {}
-}
+export class AppModule {}
 
 //==============================================================================
 // export class AppModule implements NestModule {
